@@ -1,0 +1,1 @@
+<table tableName="{{{tableName}}}" domainObjectName="{{{pojoName}}}" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"></table>  
