@@ -37,7 +37,27 @@ public class DBUtils {
 		connection = DriverManager.getConnection(jdbcString, username, password);
 		return connection;
 	}
-
+	/**
+	 * 根据表名获得pojo类名
+	 * @param connection
+	 * @param tableName
+	 * @param dbType
+	 * @param path
+	 * @param isCreateFile
+	 * @param split
+	 * @return
+	 */
+	public static String getPojoName(String tableName,String split) {
+		if(split!=null && !split.trim().equals("")){
+			String[] tags = tableName.split(split);
+			StringBuffer pojoName = new StringBuffer();
+			for (int i = 0, n = tags.length; i < n; i++) {
+				pojoName.append(tags[i].substring(0, 1).toUpperCase() + tags[i].subSequence(1, tags[i].length()));
+			}
+			return pojoName.toString();
+		}
+		return tableName = tableName.substring(0, 1).toUpperCase() + tableName.subSequence(1, tableName.length());
+	}
 	/**
 	 * 数据库表生成响应的java类,生陈规矩 类名= 表名(第一个字母大写) 属性名= 数据库列名 get/set办法 = 按照标准生成
 	 * 此中生成的根蒂根基类型均为包装类,例如Integer ,Long ,Boolean ,String ＠param connection
@@ -143,5 +163,6 @@ public class DBUtils {
 		for (int i = 0, n = tables.size(); i < n; i++) {
 			table2pojo(con, tables.get(i), MYSQL, "", true);
 		}
+		con.close();
 	}
 }
