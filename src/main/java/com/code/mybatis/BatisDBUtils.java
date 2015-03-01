@@ -30,8 +30,8 @@ import com.code.utils.DBUtils;
 public class BatisDBUtils {
 	public static void createXml(String modFile){
 		try {
-			Connection con = DBUtils.getConnection("127.0.0.1:3306", "dev", "root",
-					"123456", DBUtils.MYSQL);
+			Connection con = DBUtils.getConnection("115.29.198.188:3306", "dev", "dev",
+					"dev", DBUtils.MYSQL);
 			List<String> tableNames = DBUtils.showTables(con);
 			//获得table模板
 			BufferedReader br = new BufferedReader(new FileReader(BatisDBUtils.class.getResource("/table.xml.mod").getPath()));
@@ -61,6 +61,7 @@ public class BatisDBUtils {
 			e.printStackTrace();
 		}
 	}
+	
 	public static void main(String[] args) {
 		List<String> warnings = new ArrayList<String>();
 	    boolean overwrite = true;  

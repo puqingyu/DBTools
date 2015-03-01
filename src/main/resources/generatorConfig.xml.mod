@@ -33,7 +33,7 @@
             <property name="enableSubPackages" value="false" />  
         </sqlMapGenerator>  
           
-        <javaClientGenerator targetPackage="${dao_package}"  
+        <javaClientGenerator targetPackage="${dao_package}" implementationPackage="${dao_impl_package}" 
             targetProject="${project}" type="XMLMAPPER" >  
             <property name="enableSubPackages" value="false" />  
         </javaClientGenerator>  

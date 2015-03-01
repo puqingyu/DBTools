@@ -12,7 +12,7 @@ import java.io.IOException;
  *
  */
 public class FileUtils {
-	private final static String path = "javaFile";
+	private final static String path = "/home/puqingyu/project_other/tanwei-bar/src/main/java/com/tanwei/bar/base/model";
 	public static void stringToFile(String filename,String content) {
 		try {
 			File f = new File(path + File.separator + filename);

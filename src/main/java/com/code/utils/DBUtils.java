@@ -75,15 +75,40 @@ public class DBUtils {
 			ResultSetMetaData md = rs.getMetaData();
 			int columnCount = md.getColumnCount();
 			StringBuffer sb = new StringBuffer();
-			tableName = tableName.substring(0, 1).toUpperCase() + tableName.subSequence(1, tableName.length());
+			String head = "package com.tanwei.bar.base.model;";
+			sb.append(head);
+			sb.append(LINE);
+			//获得表的注释
+			sql = "SELECT TABLE_COMMENT FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = 'dev' and table_name = '"+tableName+"'";
+			PreparedStatement ps1 = null;
+			ResultSet rs1 = null;
+			ps1 = connection.prepareStatement(sql);
+			rs1 = ps1.executeQuery();
+			rs1.next();
+			sb.append("/**").append(LINE);
+			sb.append(" * @author pqy").append(LINE);
+			sb.append(" * ").append(rs1.getString(1)).append(LINE);
+			sb.append("**/").append(LINE);
+			String oldName = tableName;
+			tableName = getPojoName(tableName, "_");
 			sb.append("public class " + tableName + " {");
 			sb.append(LINE);
+			boolean isBigCia = false;
 			for (int i = 1; i <= columnCount; i++) {
-				sb.append(TAB);
-				sb.append("private "
+//				sb.append(TAB);
+				sql = "SELECT COLUMN_COMMENT FROM INFORMATION_SCHEMA.COLUMNS WHERE table_name = '"+oldName+"' AND table_schema = 'dev' and COLUMN_NAME = '"+md.getColumnName(i)+"'";
+				PreparedStatement ps2 = null;
+				ResultSet rs2 = null;
+				ps2 = connection.prepareStatement(sql);
+				rs2 = ps2.executeQuery();
+				rs2.next();
+				sb.append(TAB).append("/**").append(LINE);
+				sb.append(TAB).append(" * ").append(rs2.getString(1)).append(LINE);
+				sb.append(TAB).append("**/").append(LINE);
+				sb.append(TAB).append("private "
 						+ DataBaseType.getPojoType(md.getColumnTypeName(i)) + " "
 						+ md.getColumnName(i) + ";");
-				System.out.println(md.getColumnTypeName(i));
+//				System.out.println(md.getColumnTypeName(i));
 				// System.out.println("name : " + md.getColumnName(i) +
 				// " ,type :"
 				// + md.getColumnTypeName(i));
@@ -92,6 +117,9 @@ public class DBUtils {
 			for (int i = 1; i <= columnCount; i++) {
 				sb.append(TAB);
 				String pojoType = DataBaseType.getPojoType(md.getColumnTypeName(i));
+				if(pojoType.equals("BigDecimal")){
+					isBigCia = true;
+				}
 				String columnName = md.getColumnName(i);
 				String getName = null;
 				String setName = null;
@@ -120,7 +148,11 @@ public class DBUtils {
 				sb.append(LINE);
 			}
 			sb.append("}");
-			System.out.println(sb.toString());
+//			System.out.println(sb.toString());
+			if(isBigCia){
+				sb = new StringBuffer(sb.toString().replace(head, head+LINE+"import java.math.BigDecimal;"));
+				sb.append(LINE);
+			}
 			if (isCreateFile)
 				FileUtils.stringToFile(tableName + ".java", sb.toString());
 		} catch (Exception e) {
@@ -153,8 +185,8 @@ public class DBUtils {
 	 */
 	public static Connection getConnection() throws ClassNotFoundException,
 			SQLException {
-		return getConnection("121.40.70.137:3306", "fbcircle", "wificrm",
-				"wificrm", MYSQL);
+		return getConnection("115.29.198.188:3306", "dev", "dev",
+				"dev", MYSQL);
 	}
 	public static void main(String[] args) throws SQLException,
 			ClassNotFoundException {

@@ -1,1 +1,1 @@
-<table tableName="{{{tableName}}}" domainObjectName="{{{pojoName}}}" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false"></table>  
+<table tableName="{{{tableName}}}" domainObjectName="{{{pojoName}}}" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false" enableUpdateByExample="false" ><property name="useActualColumnNames" value="true"/><generatedKey column="id" sqlStatement="SELECT LAST_INSERT_ID()"/></table>
