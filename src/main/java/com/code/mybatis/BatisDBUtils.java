@@ -21,8 +21,6 @@ import org.mybatis.generator.config.xml.ConfigurationParser;
 import org.mybatis.generator.exception.XMLParserException;
 import org.mybatis.generator.internal.DefaultShellCallback;
 
-import com.code.utils.DBUtils;
-
 /**
  * @author puqingyu
  * 自动生成dto dao mapper-xml
